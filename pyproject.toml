@@ -1,0 +1,23 @@
+[project]
+name = "mail-api"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi[all]>=0.115.12",
+    "sqlalchemy-json>=0.7.0",
+    "alembic>=1.15.1",
+    "typer>=0.15.2",
+    "pydantic-settings>=2.8.1",
+    "psycopg[binary,pool]>=3.2.6",
+    "sqlalchemy[asyncio]>=2.0.39",
+    "python-jose[cryptography]>=3.4.0",
+]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=8.3.5",
+    "pytest-cov>=6.0.0",
+    "ruff>=0.11.2",
+]
