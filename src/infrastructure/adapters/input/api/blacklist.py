@@ -35,5 +35,5 @@ async def validate_email_in_blacklist(
     blacklisted_email = await service.get_blacklist_by_email(email=email)
     return ValidateEmailInBlacklistResponse(
         is_blacklisted=blacklisted_email is not None,
-        blocked_reason=blacklisted_email.blocked_reason if blacklisted_email else None,
+        blocked_reason=blacklisted_email.blocked_reason if blacklisted_email else "User not blocked",
     )

@@ -1,0 +1,195 @@
+{
+	"info": {
+		"_postman_id": "e99c4007-e1be-4ccc-b183-b423226a3e07",
+		"name": "DevOps Mail API",
+		"description": "Esta API permite gestionar una lista negra de correos electrónicos. A continuación se describen los endpoints disponibles, junto con una breve descripción de su función y ejemplos de uso.\n\n---\n\n## Endpoints Principales\n\n### \\[POST\\] /blacklists\n\n**Descripción:**  \nCrea una nueva entrada en la lista negra.\n\n**Cuerpo de la solicitud (JSON):**\n\n``` json\n{\n  \"email\": \"usuario@ejemplo.com\",\n  \"app_uuid\": \"123E4567-E89B-12D3-A456-426614174000\",\n  \"blocked_reason\": \"Razón de bloqueo\"\n}\n\n ```\n\n#### **Cuerpo Respuesta:\n\n**\n\n``` json\n{\n  \"message\": \"Mensaje de confirmacion\"\n}\n\n ```\n\n**Respuestas posibles:**\n\n- **201 Created:** Entrada creada con éxito.\n    \n- **400:** Error de validación en la solicitud.\n    \n- **401:** Token de autenticacion no valido\n    \n\n---\n\n### \\[GET\\] /blacklists/{email}\n\n**Descripción:**  \nValida si un correo electrónico se encuentra en la lista negra.\n\n**Parámetro de ruta:**\n\n- `email`: Correo electrónico a verificar.\n    \n\n``` json\n{\n  \"is_blacklisted\": true,\n  \"blocked_reason\": \"Correo malicioso\"\n}\n\n ```\n\n**Respuestas posibles:**\n\n- **200 OK:** Devuelve la información sobre si el usuario esta bloqueado\n    \n- **401:** Token de autenticacion no valido\n    \n\n---\n\n### \\[GET\\] /health\n\n**Descripción:**  \nVerifica el estado de la API.\n\n**Respuestas posibles:**\n\n- **200 OK:** La API se encuentra en estado saludable.\n    \n\n---\n\n### \\[GET\\] /\n\n**Descripción:**  \nEndpoint raíz. Generalmente se utiliza para mostrar información básica o un mensaje de bienvenida.\n\n**Respuestas posibles:**\n\n- **200 OK:** Devuelve un mensaje de bienvenida o información básica sobre la API.\n    \n\n---\n\n## Ejemplos de Uso\n\n### Crear una entrada en la lista negra\n\n## Ejemplo con cURL:\n\n``` bash\ncurl -X POST \"http://{HOST}.com/blacklists\" \\\n    -H \"Content-Type: application/json\" \\\n    -d '{ \\\n        \"email\": \"usuario@ejemplo.com\", \\\n        \"app_uuid\": \"123E4567-E89B-12D3-A456-426614174000\", \\\n        \"blocked_reason\": \"Correo malicioso\" \\\n        }\n\n ```\n\n---\n\n---\n\n### Validar un correo en la lista negra\n\n## Ejemplo con cURL:\n\n## curl -X GET \"[http://](http://tuapi.com/blacklists/usuario@ejemplo.com)[{HOST}](http://tuapi.com/blacklists)[.com/blacklists/usuario@ejemplo.com\"](http://tuapi.com/blacklists/usuario@ejemplo.com)\n\n---\n\n### Verificar el estado de la API\n\n## Ejemplo con cURL:\n\n## curl -X GET \"[http://](http://tuapi.com/health)[{HOST}](http://tuapi.com/blacklists)[.com/health\"](http://tuapi.com/health)\n\n---\n\n### Acceder al endpoint raíz\n\n## Ejemplo con cURL:\n\n## curl -X GET \"[http://](http://tuapi.com/)[{HOST}](http://tuapi.com/blacklists)[.com/\"](http://tuapi.com/)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10868035",
+		"_collection_link": "https://cloudy-rocket-562143.postman.co/workspace/Putt-Party~73198de1-c1bb-4eef-b7ba-729cd517bdc8/collection/10868035-e99c4007-e1be-4ccc-b183-b423226a3e07?action=share&source=collection_link&creator=10868035"
+	},
+	"item": [
+		{
+			"name": "Blacklist Email",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// --------------------------",
+							"// Generate random email and UUID",
+							"// --------------------------",
+							"function randomEmail() {",
+							"    let chars = 'abcdefghijklmnopqrstuvwxyz';",
+							"    let user = '';",
+							"    for (let i = 0; i < 8; i++) {",
+							"        user += chars.charAt(Math.floor(Math.random() * chars.length));",
+							"    }",
+							"    return (user + '@example.com').toUpperCase();",
+							"}",
+							"",
+							"function randomUUID() {",
+							"    let uuid = '', i, random;",
+							"    for (i = 0; i < 32; i++) {",
+							"        random = Math.random() * 16 | 0;",
+							"        if (i === 8 || i === 12 || i === 16 || i === 20) {",
+							"            uuid += '-';",
+							"        }",
+							"        uuid += (i === 12 ? 4 : (i === 16 ? (random & 3 | 8) : random)).toString(16);",
+							"    }",
+							"    return uuid.toUpperCase();",
+							"}",
+							"",
+							"// --------------------------",
+							"// Update collection variables using the structure BLACKLIST_{NAME}",
+							"// --------------------------",
+							"pm.collectionVariables.set(\"BLACKLIST_EMAIL\", randomEmail());",
+							"pm.collectionVariables.set(\"BLACKLIST_UUID\", randomUUID());",
+							"pm.collectionVariables.set(\"BLACKLIST_BLOCKED_REASON\", \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam felis.\");",
+							"",
+							"// Log the collection variables for reference",
+							"console.log({",
+							"  BLACKLIST_EMAIL: pm.collectionVariables.get(\"BLACKLIST_EMAIL\"),",
+							"  BLACKLIST_UUID: pm.collectionVariables.get(\"BLACKLIST_UUID\"),",
+							"  BLACKLIST_BLOCKED_REASON: pm.collectionVariables.get(\"BLACKLIST_BLOCKED_REASON\")",
+							"});",
+							"",
+							"// --------------------------",
+							"// Build the request body using these variables",
+							"// --------------------------",
+							"const requestBody = {",
+							"    email: pm.collectionVariables.get(\"BLACKLIST_EMAIL\"),",
+							"    app_uuid: pm.collectionVariables.get(\"BLACKLIST_UUID\"),",
+							"    blocked_reason: pm.collectionVariables.get(\"BLACKLIST_BLOCKED_REASON\")",
+							"};",
+							"",
+							"// Set the request body to a valid JSON string",
+							"pm.request.body.raw = JSON.stringify(requestBody);",
+							"",
+							"console.log(\"Final Request Body:\", pm.request.body.raw);",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{AUTH_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"{{BLACKLIST_EMAIL}}\",\n    \"app_uuid\": \"{{BLACKLIST_UUID}}\",\n    \"blocked_reason\": {{BLACKLIST_BLOCKED_REASON}}\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{API_URL}}/blacklists",
+					"protocol": "http",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"blacklists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Email Status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{API_URL}}/blacklists/{{BLACKLIST_EMAIL}}",
+					"protocol": "http",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"blacklists",
+						"{{BLACKLIST_EMAIL}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{AUTH_TOKEN}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "API_URL",
+			"value": "0.0.0.0:8000",
+			"type": "string"
+		},
+		{
+			"key": "SECRET_KEY",
+			"value": "secretkey",
+			"type": "string"
+		},
+		{
+			"key": "BLACKLIST_EMAIL",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "BLACKLIST_UUID",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "AUTH_TOKEN",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "BLACKLIST_BLOCKED_REASON",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
