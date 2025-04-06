@@ -3,7 +3,7 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     APP_TITLE: str = "Mail API"
-    APP_VERSION: str = "0.1.0"
+    APP_VERSION: str = "0.1.5"
 
     DEBUG: bool = False
     LOG_LEVEL: str = "INFO"
