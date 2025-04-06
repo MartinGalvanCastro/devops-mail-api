@@ -24,6 +24,9 @@ COPY  . .
 FROM build AS server
 CMD ["python", "manage.py", "runserver", "--port", "8000", "--host", "0.0.0.0", "--reload"]
 
+FROM build AS server_aws
+CMD ["python", "manage.py", "runserver-aws", "--port", "8000", "--host", "0.0.0.0", "--reload"]
+
 # Stage for migrations
 FROM build AS migrate
 CMD ["python", "manage.py", "migrate"]

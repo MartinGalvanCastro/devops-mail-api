@@ -16,6 +16,13 @@ def runserver(host: str = "0.0.0.0", port: int = 8000, reload: bool = False):
 
 
 @app.command()
+def runserver_aws(host: str = "0.0.0.0", port: int = 8000, reload: bool = False):
+    migrate()
+    uvicorn.run("src.main:app", host=host, port=port, reload=reload)
+
+
+
+@app.command()
 def makemigrations():
     run(
         [
