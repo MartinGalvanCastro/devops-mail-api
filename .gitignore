@@ -13,7 +13,9 @@ wheels/
 
 .idea
 # Elastic Beanstalk Files
-.elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
-!.elasticbeanstalk/*.global.yml
+!.elasticbeanstalk/*.yml
+!.elasticbeanstalk/config.yml
+
+
 .env

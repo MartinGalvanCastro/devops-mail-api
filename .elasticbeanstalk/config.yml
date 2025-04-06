@@ -1,0 +1,19 @@
+branch-defaults:
+  main:
+    environment: blacklist-api-lb-1
+environment-defaults:
+  blacklist-api-lb-1:
+    branch: null
+    repository: null
+global:
+  application_name: blacklist-api-dev
+  default_ec2_keyname: ec2_key
+  default_platform: Docker running on 64bit Amazon Linux 2023
+  default_region: us-east-1
+  include_git_submodules: true
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  profile: eb-cli
+  sc: git
+  workspace_type: Application

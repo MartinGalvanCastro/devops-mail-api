@@ -10,4 +10,7 @@ wheels/
 .venv
 
 docker-compose.yml
-.elasticbeanstalk
+.elasticbeanstalk# Elastic Beanstalk Files
+.elasticbeanstalk/*
+.git
+.gitignore
