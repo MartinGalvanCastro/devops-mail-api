@@ -2,6 +2,7 @@ from logging.config import fileConfig
 
 from alembic import context
 from sqlalchemy import engine_from_config, pool
+from sqlalchemy_utils import database_exists, create_database
 
 from src.infrastructure.adapters.output.db.base import Base
 from src.infrastructure.adapters.output.db.models import *
@@ -67,6 +68,10 @@ def run_migrations_online() -> None:
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
     )
+
+    # Create the database if it does not exist
+    if not database_exists(connectable.url):
+        create_database(connectable.url)
 
     with connectable.connect() as connection:
         context.configure(connection=connection, target_metadata=target_metadata)

@@ -4,6 +4,7 @@ from subprocess import run
 import typer
 import uvicorn
 from jose import jwt
+import os
 
 from src.infrastructure.commons.settings.base import settings
 
@@ -71,6 +72,59 @@ def get_jwt():
 
     token = jwt.encode(payload, settings.JWT_SECRET_KEY, algorithm="HS256")
     print(token)
+
+
+@app.command()
+def push_docker_image():
+    account_id = os.getenv("AWS_ACCOUNT_ID")
+    if account_id is None:
+        raise Exception("AWS_ACCOUNT_ID environment variable is not set")
+
+    # Step 1: Build the main build image
+    run(
+        [
+            "docker", "build",
+            "--platform", "linux/amd64",
+            "--target", "build",
+            "-t", "devops/blacklist-api-python:build",
+            "."
+        ],
+        check=True
+    )
+
+    # Step 2: Build the aws_server image using the main build stage as cache
+    run(
+        [
+            "docker", "build",
+            "--platform", "linux/amd64",
+            "--target", "aws_server",
+            "-t", "devops/blacklist-api-python:latest",
+            "."
+        ],
+        check=True
+    )
+
+    # Step 3: Tag the aws_server image for AWS ECR
+    ecr_tag = f"{account_id}.dkr.ecr.us-east-1.amazonaws.com/devops/blacklist-api-python:latest"
+    run(
+        [
+            "docker", "tag",
+            "devops/blacklist-api-python:latest",
+            ecr_tag
+        ],
+        check=True
+    )
+
+    # Step 4: Push the image to AWS ECR
+    run(
+        [
+            "docker", "push",
+            ecr_tag
+        ],
+        check=True
+    )
+
+    typer.echo("Docker image built, tagged, and pushed successfully.")
 
 
 if __name__ == "__main__":

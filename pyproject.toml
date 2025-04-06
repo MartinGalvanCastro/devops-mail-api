@@ -13,6 +13,7 @@ dependencies = [
     "psycopg[binary,pool]>=3.2.6",
     "sqlalchemy[asyncio]>=2.0.39",
     "python-jose[cryptography]>=3.4.0",
+    "sqlalchemy-utils>=0.41.2",
 ]
 
 [tool.uv]

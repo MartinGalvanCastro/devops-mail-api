@@ -8,5 +8,6 @@
     {
       "ContainerPort": "8000"
     }
-  ]
+  ],
+  "Command": "/bin/sh -c \"set -a && . /app/.env.prod && exec python manage.py runserver-aws --port 8000 --host 0.0.0.0 --reload\""
 }

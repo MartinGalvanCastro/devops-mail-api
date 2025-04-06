@@ -13,7 +13,7 @@ ENV PATH="/root/.local/bin/:$PATH"
 
 WORKDIR /app
 
-COPY ./pyproject.toml ./uv.lock* /app/
+COPY ./pyproject.toml ./uv.lock* ./.env.prod /app/
 
 RUN uv pip compile pyproject.toml --quiet --output-file requirements.txt \
     && pip install -r requirements.txt
@@ -24,8 +24,9 @@ COPY  . .
 FROM build AS server
 CMD ["python", "manage.py", "runserver", "--port", "8000", "--host", "0.0.0.0", "--reload"]
 
-FROM build AS server_aws
-CMD ["python", "manage.py", "runserver-aws", "--port", "8000", "--host", "0.0.0.0", "--reload"]
+FROM build AS aws_server
+EXPOSE 8000
+CMD ["python", "manage.py", "runserver-aws", "--port 8000", "--host 0.0.0.0", "--reload"]
 
 # Stage for migrations
 FROM build AS migrate

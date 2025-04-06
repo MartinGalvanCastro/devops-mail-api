@@ -1,0 +1,6 @@
+# Ignore everything
+**
+
+# Allow these two files
+!/.env.prod
+!/Dockerrun.aws.json

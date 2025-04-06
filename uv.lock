@@ -1,4 +1,5 @@
 version = 1
+revision = 1
 requires-python = ">=3.12"
 
 [[package]]
@@ -85,7 +86,7 @@ name = "click"
 version = "8.1.8"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "colorama", marker = "platform_system == 'Windows'" },
+    { name = "colorama", marker = "sys_platform == 'win32'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/b9/2e/0090cbf739cee7d23781ad4b89a9894a41538e4fcf4c31dcdd705b78eb8b/click-8.1.8.tar.gz", hash = "sha256:ed53c9d8990d83c2a27deae68e4ee337473f6330c040a31d4225c9574d16096a", size = 226593 }
 wheels = [
@@ -401,6 +402,7 @@ dependencies = [
     { name = "python-jose", extra = ["cryptography"] },
     { name = "sqlalchemy", extra = ["asyncio"] },
     { name = "sqlalchemy-json" },
+    { name = "sqlalchemy-utils" },
     { name = "typer" },
 ]
 
@@ -420,6 +422,7 @@ requires-dist = [
     { name = "python-jose", extras = ["cryptography"], specifier = ">=3.4.0" },
     { name = "sqlalchemy", extras = ["asyncio"], specifier = ">=2.0.39" },
     { name = "sqlalchemy-json", specifier = ">=0.7.0" },
+    { name = "sqlalchemy-utils", specifier = ">=0.41.2" },
     { name = "typer", specifier = ">=0.15.2" },
 ]
 
@@ -947,6 +950,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/3e/57/73ba3d0ee5efbec5a0d15ee3e21606edd33b1d1fd11b5d64e581c8b8a3f6/sqlalchemy-json-0.7.0.tar.gz", hash = "sha256:620d0b26f648f21a8fa9127df66f55f83a5ab4ae010e5397a5c6989a08238561", size = 8848 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/e1/79/1fc7309ecf75756e9ad9280f19cd83ca7b79a0dae36cd025f668e8e2741f/sqlalchemy_json-0.7.0-py3-none-any.whl", hash = "sha256:27881d662ca18363a4ac28175cc47ea2a6f2bef997ae1159c151026b741818e6", size = 7688 },
+]
+
+[[package]]
+name = "sqlalchemy-utils"
+version = "0.41.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "sqlalchemy" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/4d/bf/abfd5474cdd89ddd36dbbde9c6efba16bfa7f5448913eba946fed14729da/SQLAlchemy-Utils-0.41.2.tar.gz", hash = "sha256:bc599c8c3b3319e53ce6c5c3c471120bd325d0071fb6f38a10e924e3d07b9990", size = 138017 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d5/f0/dc4757b83ac1ab853cf222df8535ed73973e0c203d983982ba7b8bc60508/SQLAlchemy_Utils-0.41.2-py3-none-any.whl", hash = "sha256:85cf3842da2bf060760f955f8467b87983fb2e30f1764fd0e24a48307dc8ec6e", size = 93083 },
 ]
 
 [[package]]
