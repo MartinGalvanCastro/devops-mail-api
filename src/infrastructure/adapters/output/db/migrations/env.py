@@ -2,7 +2,7 @@ from logging.config import fileConfig
 
 from alembic import context
 from sqlalchemy import engine_from_config, pool
-from sqlalchemy_utils import database_exists, create_database
+from sqlalchemy_utils import create_database, database_exists
 
 from src.infrastructure.adapters.output.db.base import Base
 from src.infrastructure.adapters.output.db.models import *

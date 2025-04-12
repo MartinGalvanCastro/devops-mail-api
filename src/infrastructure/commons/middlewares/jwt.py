@@ -6,7 +6,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from src.infrastructure.commons.settings.base import settings
 
 ALGORITHM = "HS256"
-EXCLUDED_PATHS = ["/docs", "/redoc", "/openapi.json", "/login", "/","health"]
+EXCLUDED_PATHS = ["/docs", "/redoc", "/openapi.json", "/login", "/", "/health"]
 
 
 class JWTMiddleware(BaseHTTPMiddleware):

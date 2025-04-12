@@ -1,10 +1,10 @@
+import os
 from datetime import datetime, timedelta, timezone
 from subprocess import run
 
 import typer
 import uvicorn
 from jose import jwt
-import os
 
 from src.infrastructure.commons.settings.base import settings
 
@@ -20,7 +20,6 @@ def runserver(host: str = "0.0.0.0", port: int = 8000, reload: bool = False):
 def runserver_aws(host: str = "0.0.0.0", port: int = 8000, reload: bool = False):
     migrate()
     uvicorn.run("src.main:app", host=host, port=port, reload=reload)
-
 
 
 @app.command()
@@ -83,46 +82,41 @@ def push_docker_image():
     # Step 1: Build the main build image
     run(
         [
-            "docker", "build",
-            "--platform", "linux/amd64",
-            "--target", "build",
-            "-t", "devops/blacklist-api-python:build",
-            "."
+            "docker",
+            "build",
+            "--platform",
+            "linux/amd64",
+            "--target",
+            "build",
+            "-t",
+            "devops/blacklist-api-python:build",
+            ".",
         ],
-        check=True
+        check=True,
     )
 
     # Step 2: Build the aws_server image using the main build stage as cache
     run(
         [
-            "docker", "build",
-            "--platform", "linux/amd64",
-            "--target", "aws_server",
-            "-t", "devops/blacklist-api-python:latest",
-            "."
+            "docker",
+            "build",
+            "--platform",
+            "linux/amd64",
+            "--target",
+            "aws_server",
+            "-t",
+            "devops/blacklist-api-python:latest",
+            ".",
         ],
-        check=True
+        check=True,
     )
 
     # Step 3: Tag the aws_server image for AWS ECR
     ecr_tag = f"{account_id}.dkr.ecr.us-east-1.amazonaws.com/devops/blacklist-api-python:latest"
-    run(
-        [
-            "docker", "tag",
-            "devops/blacklist-api-python:latest",
-            ecr_tag
-        ],
-        check=True
-    )
+    run(["docker", "tag", "devops/blacklist-api-python:latest", ecr_tag], check=True)
 
     # Step 4: Push the image to AWS ECR
-    run(
-        [
-            "docker", "push",
-            ecr_tag
-        ],
-        check=True
-    )
+    run(["docker", "push", ecr_tag], check=True)
 
     typer.echo("Docker image built, tagged, and pushed successfully.")
 
