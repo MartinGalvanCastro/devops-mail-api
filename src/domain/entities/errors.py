@@ -18,7 +18,9 @@ class UnexpectedErrorSchema(BaseModel):
     datetime: str = Field(..., description="Fecha y hora en la que ocurrió el error.")
 
     class Config:
-        json_schema_extra = {"description": "Esquema para errores inesperados en la API."}
+        json_schema_extra = {
+            "description": "Esquema para errores inesperados en la API."
+        }
 
 
 class BaseErrorSchema(BaseModel):

@@ -10,6 +10,4 @@ class MessageResponse(BaseModel):
     )
 
     class Config:
-        json_schema_extra = {
-            "description": "Modelo de respuesta de un mensaje"
-        }
+        json_schema_extra = {"description": "Modelo de respuesta de un mensaje"}
