@@ -1,0 +1,246 @@
+{
+	"info": {
+		"_postman_id": "6e142abc-dd93-40af-b7d4-82e3f208f947",
+		"name": "DevOps Mail API",
+		"description": "API para gestión de lista negra de correos electrónicos\n\n## Endpoints Principales\n\n- **Blacklist**: Operaciones con la lista negra\n- **Management**: Verificación de estado del servicio",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10868035",
+		"_collection_link": "https://www.postman.com/cloudy-rocket-562143/workspace/putt-party/collection/10868035-6e142abc-dd93-40af-b7d4-82e3f208f947?action=share&source=collection_link&creator=10868035"
+	},
+	"item": [
+		{
+			"name": "Blacklist",
+			"item": [
+				{
+					"name": "Crear entrada en lista negra",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{AUTH_TOKEN}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"{{BLACKLIST_EMAIL}}\",\n  \"app_uuid\": \"{{BLACKLIST_UUID}}\",\n  \"blocked_reason\": \"{{BLACKLIST_BLOCKED_REASON}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/blacklists",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"blacklists"
+							]
+						},
+						"description": "**Descripción:**  \nCrea una nueva entrada en la lista negra\n\n**Ejemplo de solicitud:**\n\n``` json\n{\n\"email\": \"usuario@ejemplo.com\",\n\"app_uuid\": \"123E4567-E89B-12D3-A456-426614174000\",\n\"blocked_reason\": \"Correo malicioso\"\n}\n\n ```\n\n**Respuestas:**\n\n- 201: Entrada creada exitosamente\n    \n- 400: Error de validación\n    \n- 401: Token inválido"
+					},
+					"response": [
+						{
+							"name": "201 - Éxito",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"test@example.com\",\n  \"app_uuid\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"blocked_reason\": \"Spam\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "0.0.0.0:8000/blacklists",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "8000",
+									"path": [
+										"blacklists"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n  \"message\": \"Elemento agregado exitosamente\"\n}"
+						},
+						{
+							"name": "400 - Error validación",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{AUTH_TOKEN}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"{{BLACKLIST_EMAIL}}\",\n  \"app_uuid\": \"{{BLACKLIST_UUID}}\",\n  \"blocked_reason\": \"{{BLACKLIST_BLOCKED_REASON}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/blacklists",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"blacklists"
+									]
+								},
+								"description": "**Descripción:**  \nCrea una nueva entrada en la lista negra\n\n**Ejemplo de solicitud:**\n\n``` json\n{\n\"email\": \"usuario@ejemplo.com\",\n\"app_uuid\": \"123E4567-E89B-12D3-A456-426614174000\",\n\"blocked_reason\": \"Correo malicioso\"\n}\n\n ```\n\n**Respuestas:**\n\n- 201: Entrada creada exitosamente\n    \n- 400: Error de validación\n    \n- 401: Token inválido"
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\n  \"error\": \"validation_error\",\n  \"message\": \"El formato del email es inválido\",\n  \"loc\": [\"body\", \"email\"]\n}"
+						}
+					]
+				},
+				{
+					"name": "Verificar correo en lista negra",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{AUTH_TOKEN}}"
+							}
+						],
+						"url": {
+							"raw": "{{API_URL}}/blacklists/{{BLACKLIST_EMAIL}}",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"blacklists",
+								"{{BLACKLIST_EMAIL}}"
+							]
+						},
+						"description": "**Descripción:**  \nVerifica si un correo está en la lista negra\n\n**Ejemplo respuesta:**\n\n``` json\n{\n  \"is_blacklisted\": true,\n  \"blocked_reason\": \"Correo malicioso\"\n}\n\n ```\n\n**Respuestas:**\n\n- 200: Resultado de verificación\n    \n- 400: Correo no valido\n    \n- 401: Token inválido"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Management",
+			"item": [
+				{
+					"name": "Verificar salud del servicio",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/health",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"health"
+							]
+						},
+						"description": "**Descripción:**  \nVerifica el estado operativo de la API\n\n**Respuesta exitosa:**\n\n``` json\n{\n  \"message\":\"OK\"\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Endpoint raíz",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								""
+							]
+						},
+						"description": "**Descripción:**  \nEndpoint principal de la API\n\n**Respuesta:**\n\n``` json\n{\n \"message\":\"OK\"\n}\n\n ```"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{AUTH_TOKEN}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"exec": [
+					"// Generar datos de prueba",
+					"function randomEmail() {",
+					"    const user = Math.random().toString(36).substring(7);",
+					"    return `${user}@example.com`;",
+					"}",
+					"",
+					"pm.collectionVariables.set('BLACKLIST_EMAIL', randomEmail());",
+					"pm.collectionVariables.set('BLACKLIST_UUID', crypto.randomUUID());",
+					"pm.collectionVariables.set('BLACKLIST_BLOCKED_REASON', 'Violación de políticas');"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "API_URL",
+			"value": "0.0.0.0:8000"
+		},
+		{
+			"key": "AUTH_TOKEN",
+			"value": ""
+		},
+		{
+			"key": "BLACKLIST_EMAIL",
+			"value": ""
+		},
+		{
+			"key": "BLACKLIST_UUID",
+			"value": ""
+		},
+		{
+			"key": "BLACKLIST_BLOCKED_REASON",
+			"value": ""
+		}
+	]
+}

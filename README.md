@@ -2,6 +2,10 @@
 
 Mail API es una aplicación basada en FastAPI diseñada para gestionar listas negras de correos electrónicos y proporcionar una API robusta para manejar solicitudes relacionadas con la validación y creación de entradas en listas negras.
 
+**POSTMAN COLLECTION**: https://www.postman.com/cloudy-rocket-562143/putt-party/collection/kxuedaz/devops-mail-api
+
+**POSTMAN DOC**: https://documenter.getpostman.com/view/10868035/2sB2cYeM7u
+
 ## Tabla de Contenidos
 
 - [Mail API](#mail-api)
