@@ -1,34 +1,29 @@
 #!/bin/sh
 
-# Get target branch from push command
+# Exit if already in hook context
+if [ -n "$HOOK_ACTIVE" ]; then
+  exit 0
+fi
+export HOOK_ACTIVE=1
+
+# Get target branch
 REMOTE_BRANCH=$(echo "$1" | sed 's/.*\///')
 
-# Determine bump type
-if [ "$REMOTE_BRANCH" = "main" ]; then
-  BUMP_TYPE="major"
-else
-  BUMP_TYPE="minor"
-fi
-
-# Read current version
+# Bump version
 CURRENT_VERSION=$(cat version.txt)
-
-# Calculate new version
-case $BUMP_TYPE in
-  "major")
-    NEW_VERSION=$(echo "$CURRENT_VERSION" | awk -F. '{printf "%d.%d.%d", $1+1, 0, 0}')
-    ;;
-  "minor")
-    NEW_VERSION=$(echo "$CURRENT_VERSION" | awk -F. '{printf "%d.%d.%d", $1, $2+1, 0}')
-    ;;
-esac
+if [ "$REMOTE_BRANCH" = "main" ]; then
+  NEW_VERSION=$(echo "$CURRENT_VERSION" | awk -F. '{printf "%d.%d.%d", $1+1, 0, 0}')
+else
+  NEW_VERSION=$(echo "$CURRENT_VERSION" | awk -F. '{printf "%d.%d.%d", $1, $2+1, 0}')
+fi
 
 # Update version.txt
 echo "$NEW_VERSION" > version.txt
 
-# Amend last commit with version change (no new commit)
+# Amend commit and force-push WITHOUT re-triggering hooks
 git add version.txt
 git commit --amend --no-edit --allow-empty
+git push --force --no-verify origin HEAD
 
-# Force-push the amended commit (safe since pre-push hasn't completed yet)
-git push --force-with-lease origin HEAD
+unset HOOK_ACTIVE
+exit 0
