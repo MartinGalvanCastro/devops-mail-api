@@ -1,0 +1,30 @@
+version: 0.2
+
+env:
+  variables:
+    ECR_REPO: "devops/blacklist-api-python"
+    DOCKER_TARGET: "aws_server"
+    DOCKER_PLATFORM: "linux/amd64"
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.12
+    commands:
+      - apt-get update && apt-get install -y docker.io
+
+  build:
+    commands:
+      - python manage.py test
+
+  post_build:
+    commands:
+      - NEW_VERSION=$(cat version.txt)
+      - docker build \
+          --platform $DOCKER_PLATFORM \
+          --target $DOCKER_TARGET \
+          -t $ECR_REPO:$NEW_VERSION \
+          -t $ECR_REPO:latest \
+          .
+      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO --all-tags
