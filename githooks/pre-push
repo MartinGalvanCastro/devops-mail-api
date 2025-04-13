@@ -6,8 +6,10 @@ if [ -n "$HOOK_ACTIVE" ]; then
 fi
 export HOOK_ACTIVE=1
 
-# Get target branch
-REMOTE_BRANCH=$(echo "$1" | sed 's/.*\///')
+# Read target branch from stdin
+while read -r local_ref local_sha remote_ref remote_sha; do
+  REMOTE_BRANCH=$(echo "$remote_ref" | sed 's/.*\///')
+done
 
 # Bump version
 CURRENT_VERSION=$(cat version.txt)
@@ -20,7 +22,7 @@ fi
 # Update version.txt
 echo "$NEW_VERSION" > version.txt
 
-# Amend commit and force-push WITHOUT re-triggering hooks
+# Amend commit and force-push
 git add version.txt
 git commit --amend --no-edit --allow-empty
 git push --force --no-verify origin HEAD

@@ -15,11 +15,13 @@ phases:
 
   build:
     commands:
+      # Run tests
       - python manage.py test
 
   post_build:
     commands:
       - NEW_VERSION=$(cat version.txt)
+      - echo "Building version: $NEW_VERSION"
       - docker build \
           --platform $DOCKER_PLATFORM \
           --target $DOCKER_TARGET \
