@@ -6,7 +6,7 @@ if [ -n "$HOOK_ACTIVE" ]; then
 fi
 export HOOK_ACTIVE=1
 
-# Read target branch from stdin
+# Get target branch
 while read -r local_ref local_sha remote_ref remote_sha; do
   REMOTE_BRANCH=$(echo "$remote_ref" | sed 's/.*\///')
 done
@@ -22,10 +22,15 @@ fi
 # Update version.txt
 echo "$NEW_VERSION" > version.txt
 
-# Amend commit and force-push
+# Amend commit and force-push SAFELY
 git add version.txt
 git commit --amend --no-edit --allow-empty
-git push --force --no-verify origin HEAD
+
+# Get latest remote state to avoid ref conflicts
+git fetch origin
+
+# Force-push with lease (safer than --force)
+git push --force-with-lease origin HEAD
 
 unset HOOK_ACTIVE
 exit 0
