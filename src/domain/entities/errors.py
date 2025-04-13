@@ -1,6 +1,6 @@
 from typing import Any, Union
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class UnexpectedErrorSchema(BaseModel):
@@ -17,10 +17,9 @@ class UnexpectedErrorSchema(BaseModel):
     )
     datetime: str = Field(..., description="Fecha y hora en la que ocurrió el error.")
 
-    class Config:
-        json_schema_extra = {
-            "description": "Esquema para errores inesperados en la API."
-        }
+    model_config = ConfigDict(
+        json_schema_extra={"description": "Esquema para errores inesperados en la API."}
+    )
 
 
 class BaseErrorSchema(BaseModel):
@@ -45,5 +44,6 @@ class BaseErrorSchema(BaseModel):
         ..., description="Fecha y hora en la que se registró el error."
     )
 
-    class Config:
-        json_schema_extra = {"description": "Esquema base para respuestas de error."}
+    model_config = ConfigDict(
+        json_schema_extra={"description": "Esquema base para respuestas de error."}
+    )

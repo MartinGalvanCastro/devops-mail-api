@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class MessageResponse(BaseModel):
@@ -9,5 +9,6 @@ class MessageResponse(BaseModel):
         description="Mensaje descriptivo",
     )
 
-    class Config:
-        json_schema_extra = {"description": "Modelo de respuesta de un mensaje"}
+    model_config = ConfigDict(
+        json_schema_extra={"description": "Modelo de respuesta de un mensaje"}
+    )

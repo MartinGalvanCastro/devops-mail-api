@@ -59,6 +59,18 @@ def test():
 
 
 @app.command()
+def test_with_failures():
+    """Run tests with simulated failures"""
+    env = os.environ.copy()
+    env["SIMULATE_FAILURES"] = "true"
+
+    run(
+        ["python", "-m", "pytest", "-vv"],
+        env=env,
+        check=True
+    )
+
+@app.command()
 def coverage():
     run(["python", "-m", "pytest", "--cov", "--cov-report=html"], check=True)
 

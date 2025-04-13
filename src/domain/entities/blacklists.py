@@ -1,7 +1,7 @@
 from datetime import datetime
 from uuid import UUID
 
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
 
 class Blacklist(BaseModel):
@@ -38,8 +38,9 @@ class Blacklist(BaseModel):
         description="Fecha y hora de la última actualización de la entrada en la lista negra.",
     )
 
-    class Config:
-        json_schema_extra = {"description": "Representa una entrada en la lista negra."}
+    model_config = ConfigDict(
+        json_schema_extra={"description": "Representa una entrada en la lista negra."}
+    )
 
 
 class CreateBlacklistResponse(BaseModel):
@@ -50,10 +51,11 @@ class CreateBlacklistResponse(BaseModel):
         description="Mensaje que indica el resultado después de crear la entrada en la lista negra.",
     )
 
-    class Config:
-        json_schema_extra = {
+    model_config = ConfigDict(
+        json_schema_extra={
             "description": "Modelo de respuesta para la creación de una nueva entrada en la lista negra."
         }
+    )
 
 
 class CreateBlacklistRequest(BaseModel):
@@ -70,10 +72,11 @@ class CreateBlacklistRequest(BaseModel):
         ..., description="Razón por la cual se debe bloquear el correo electrónico."
     )
 
-    class Config:
-        json_schema_extra = {
+    model_config = ConfigDict(
+        json_schema_extra={
             "description": "Modelo de solicitud para crear una nueva entrada en la lista negra."
         }
+    )
 
 
 class ValidateEmailInBlacklistResponse(BaseModel):
@@ -88,7 +91,8 @@ class ValidateEmailInBlacklistResponse(BaseModel):
         description="Razón por la cual el correo electrónico fue bloqueado, si corresponde.",
     )
 
-    class Config:
-        json_schema_extra = {
+    model_config = ConfigDict(
+        json_schema_extra={
             "description": "Modelo de respuesta para validar si un correo electrónico está en la lista negra."
         }
+    )

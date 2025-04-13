@@ -119,7 +119,7 @@ El archivo manage.py incluye varios comandos útiles:
 
 * Ejecutar pruebas:
     ```bash
-    python manage.py test
+    python manage.py tests
     ```
 
 * Generar cobertura de pruebas:
