@@ -1,0 +1,34 @@
+#!/bin/sh
+
+# Get target branch from push command
+REMOTE_BRANCH=$(echo "$1" | sed 's/.*\///')
+
+# Determine bump type
+if [ "$REMOTE_BRANCH" = "main" ]; then
+  BUMP_TYPE="major"
+else
+  BUMP_TYPE="minor"
+fi
+
+# Read current version
+CURRENT_VERSION=$(cat version.txt)
+
+# Calculate new version
+case $BUMP_TYPE in
+  "major")
+    NEW_VERSION=$(echo "$CURRENT_VERSION" | awk -F. '{printf "%d.%d.%d", $1+1, 0, 0}')
+    ;;
+  "minor")
+    NEW_VERSION=$(echo "$CURRENT_VERSION" | awk -F. '{printf "%d.%d.%d", $1, $2+1, 0}')
+    ;;
+esac
+
+# Update version.txt
+echo "$NEW_VERSION" > version.txt
+
+# Amend last commit with version change (no new commit)
+git add version.txt
+git commit --amend --no-edit --allow-empty
+
+# Force-push the amended commit (safe since pre-push hasn't completed yet)
+git push --force-with-lease origin HEAD
