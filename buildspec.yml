@@ -15,18 +15,15 @@ phases:
 
   build:
     commands:
-      # Run tests
       - python manage.py test
 
   post_build:
     commands:
-      - NEW_VERSION=$(cat version.txt)
-      - echo "Building version: $NEW_VERSION"
+      # Build and push as 'latest' only
       - docker build \
           --platform $DOCKER_PLATFORM \
           --target $DOCKER_TARGET \
-          -t $ECR_REPO:$NEW_VERSION \
           -t $ECR_REPO:latest \
           .
       - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO --all-tags
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:latest
