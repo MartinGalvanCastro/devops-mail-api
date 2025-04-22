@@ -5,6 +5,7 @@ env:
     ECR_REPO: "devops/blacklist-api-python"
     DOCKER_TARGET: "aws_server"
     DOCKER_PLATFORM: "linux/amd64"
+    UV_SYSTEM_PYTHON: true
 
 phases:
   install:
