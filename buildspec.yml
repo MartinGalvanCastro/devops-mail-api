@@ -17,7 +17,7 @@ phases:
   pre_build:
     commands:
       - echo "Running tests…"
-      - python -m pytest -vv
+      - uv run manage.py test
 
       - echo "Retrieving AWS account ID…"
       - ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
