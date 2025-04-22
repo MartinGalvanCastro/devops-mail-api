@@ -5,13 +5,13 @@ env:
     ECR_REPO: "devops/blacklist-api-python"
     DOCKER_TARGET: "aws_server"
     DOCKER_PLATFORM: "linux/amd64"
-    UV_PROJECT_ENVIRONMENT:
+    UV_PROJECT_ENVIRONMENT: "/usr/local"
 
 phases:
   install:
     commands:
       - echo "Installing dev dependencies…"
-      - pip install --upgrade pip
+      - pip install uv
       - pip compile pyproject.toml --quiet --output-file requirements.txt
       - pip install -r requirements.txt
 
