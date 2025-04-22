@@ -12,8 +12,7 @@ phases:
     commands:
       - echo "Installing dev dependencies…"
       - pip install uv
-      - pip compile pyproject.toml --quiet --output-file requirements.txt
-      - pip install -r requirements.txt
+      - uv sync --dev
 
   pre_build:
     commands:
