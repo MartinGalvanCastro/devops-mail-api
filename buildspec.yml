@@ -10,7 +10,7 @@ env:
 phases:
   install:
     commands:
-      - echo "Installing dev dependencies…" && pip install uv && uv sync --dev
+      - echo "Installing dev dependencies" && pip install uv && uv sync --dev
 
   pre_build:
     commands:
