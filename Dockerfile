@@ -1,33 +1,22 @@
-FROM python:3.13-slim AS build
+version: 0.2
 
-ENV PYTHONUNBUFFERED 1
-ENV PYTHONDONTWRITEBYTECODE 1
+phases:
+  install:
+    commands:
+      - echo "Installing dev dependencies…" && pip install uv && uv sync --dev
 
-RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates
+  pre_build:
+    commands:
+      - echo "Running tests…" && uv run manage.py test
+      - echo "Retrieving AWS account ID…" && ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+      - echo "Logging in to Amazon ECR…" && docker login -u AWS -p $(aws ecr get-login-password --region $AWS_REGION) $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 
-ADD https://astral.sh/uv/install.sh /uv-installer.sh
+  build:
+    commands:
+      - echo "Building Docker image with build args…" && docker build --platform $DOCKER_PLATFORM --target $DOCKER_TARGET --build-arg APP_VERSION=$APP_VERSION --build-arg DB_HOST=$DB_HOST --build-arg DB_PORT=$DB_PORT --build-arg DB_USER=$DB_USER --build-arg DB_PASSWORD=$DB_PASSWORD --build-arg DB_NAME=$DB_NAME --build-arg DB_DRIVER=$DB_DRIVER -t $ECR_REPO:latest .
+      - echo "Tagging image for ECR…" && docker tag $ECR_REPO:latest $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:latest
 
-RUN sh /uv-installer.sh && rm /uv-installer.sh
-
-ENV PATH="/root/.local/bin/:$PATH"
-
-WORKDIR /app
-
-COPY ./pyproject.toml ./uv.lock* ./.env.prod /app/
-
-RUN uv pip compile pyproject.toml --quiet --output-file requirements.txt \
-    && pip install -r requirements.txt
-
-COPY  . .
-
-# Stage for Fastapi server
-FROM build AS server
-CMD ["python", "manage.py", "runserver", "--port", "8000", "--host", "0.0.0.0", "--reload"]
-
-FROM build AS aws_server
-EXPOSE 8000
-CMD ["python", "manage.py", "runserver-aws", "--port 8000", "--host 0.0.0.0", "--reload"]
-
-# Stage for migrations
-FROM build AS migrate
-CMD ["python", "manage.py", "migrate"]
+  post_build:
+    commands:
+      - echo "Pushing image to ECR…" && docker push $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:latest
+      - echo "Build complete on $(date)"
