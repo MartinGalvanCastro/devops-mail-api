@@ -14,7 +14,7 @@ phases:
 
   pre_build:
     commands:
-      - echo "Running tests…" && uv run manage.py test
+      - echo "Running tests…" && uv run manage.py test-with-failures
       - echo "Retrieving AWS account ID…" && ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
       - echo "Logging in to Amazon ECR…" && docker login -u AWS -p $(aws ecr get-login-password --region $AWS_REGION) $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 
