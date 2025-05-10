@@ -15,17 +15,35 @@ resource "aws_ecs_task_definition" "app" {
 
   container_definitions = jsonencode([
     {
-      name            = var.service_name
-      image           = var.image_uri
-      essential       = true
-      portMappings    = [{ containerPort = 8000, hostPort = 8000, protocol = "tcp" }]
-      environment     = [
-        { name = "DB_HOST",      value = aws_db_instance.default.address },
-        { name = "DB_PORT",      value = tostring(aws_db_instance.default.port) },
-        { name = "DB_USER",      value = var.db_username },
-        { name = "DB_PASSWORD",  value = var.db_password },
-        { name = "DB_NAME",      value = var.db_name },
-        { name = "DB_DRIVER",    value = var.db_driver }
+      name         = var.service_name
+      image        = var.image_uri
+      essential    = true
+      portMappings = [{ containerPort = 8000, hostPort = 8000, protocol = "tcp" }]
+      secrets = [
+        {
+          name      = "DB_HOST"
+          valueFrom = aws_ssm_parameter.db_host.arn
+        },
+        {
+          name      = "DB_PORT"
+          valueFrom = aws_ssm_parameter.db_port.arn
+        },
+        {
+          name      = "DB_USER"
+          valueFrom = aws_ssm_parameter.db_user.arn
+        },
+        {
+          name      = "DB_PASSWORD"
+          valueFrom = aws_ssm_parameter.db_password.arn
+        },
+        {
+          name      = "DB_NAME"
+          valueFrom = aws_ssm_parameter.db_name.arn
+        },
+        {
+          name      = "DB_DRIVER"
+          valueFrom = aws_ssm_parameter.db_driver.arn
+        }
       ]
       logConfiguration = {
         logDriver = "awslogs"

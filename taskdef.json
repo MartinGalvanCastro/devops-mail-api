@@ -1,0 +1,34 @@
+{
+  "family": "blacklist-api-task",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "executionRoleArn": "arn:aws:iam::501257812093:role/blacklist-api-task-execution-role",
+  "taskRoleArn":      "arn:aws:iam::501257812093:role/blacklist-api-task-role",
+  "containerDefinitions": [
+    {
+      "name":  "Blacklist-API-fargate-service",
+      "image": "501257812093.dkr.ecr.us-east-1.amazonaws.com/devops/blacklist-api-python:latest",
+      "portMappings": [
+        { "containerPort": 8000, "protocol": "tcp" }
+      ],
+      "secrets": [
+        { "name": "DB_HOST",     "valueFrom": "/blacklist-api/DB_HOST"     },
+        { "name": "DB_PORT",     "valueFrom": "/blacklist-api/DB_PORT"     },
+        { "name": "DB_USER",     "valueFrom": "/blacklist-api/DB_USER"     },
+        { "name": "DB_PASSWORD", "valueFrom": "/blacklist-api/DB_PASSWORD" },
+        { "name": "DB_NAME",     "valueFrom": "/blacklist-api/DB_NAME"     },
+        { "name": "DB_DRIVER",   "valueFrom": "/blacklist-api/DB_DRIVER"   }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group":         "/ecs/Blacklist-API-fargate-service",
+          "awslogs-region":        "us-east-1",
+          "awslogs-stream-prefix": "Blacklist-API-fargate-service"
+        }
+      }
+    }
+  ]
+}

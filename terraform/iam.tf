@@ -29,3 +29,27 @@ resource "aws_iam_role" "ecs_task_role" {
     }]
   })
 }
+
+resource "aws_iam_role_policy" "ecs_ssm_access" {
+  name = "${var.project_name}-ecs-ssm-access"
+  role = aws_iam_role.ecs_task_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect = "Allow"
+      Action = [
+        "ssm:GetParameter",
+        "ssm:GetParameters"
+      ]
+      Resource = [
+        aws_ssm_parameter.db_host.arn,
+        aws_ssm_parameter.db_port.arn,
+        aws_ssm_parameter.db_user.arn,
+        aws_ssm_parameter.db_password.arn,
+        aws_ssm_parameter.db_name.arn,
+        aws_ssm_parameter.db_driver.arn
+      ]
+    }]
+  })
+}
