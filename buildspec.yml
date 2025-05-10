@@ -7,15 +7,6 @@ env:
     DOCKER_PLATFORM: "linux/amd64"
     UV_SYSTEM_PYTHON: true
 
-  # ←— CodeBuild will fetch these from SSM at container start
-  parameter-store:
-    DB_HOST:     "/blacklist-api/DB_HOST"
-    DB_PORT:     "/blacklist-api/DB_PORT"
-    DB_USER:     "/blacklist-api/DB_USER"
-    DB_PASSWORD: "/blacklist-api/DB_PASSWORD"
-    DB_NAME:     "/blacklist-api/DB_NAME"
-    DB_DRIVER:   "/blacklist-api/DB_DRIVER"
-
 phases:
   install:
     commands:
