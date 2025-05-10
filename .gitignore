@@ -19,3 +19,18 @@ wheels/
 
 
 .env
+.env.prod
+
+**/.terraform/
+**/*.tfstate
+**/*.tfstate.*
+**/*.tfvars
+**/*.tfvars.json
+**/*.tfplan
+terraform/.terraform/
+terraform/*.tfstate
+terraform/*.tfstate.*
+terraform/*.tfvars
+terraform/*.tfvars.json
+terraform/*.tfplan
+terraform/tfplan
