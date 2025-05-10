@@ -42,7 +42,8 @@ ENV DB_HOST=${DB_HOST} \
     DB_DRIVER=${DB_DRIVER}
 
 EXPOSE 8000
-CMD ["python", "manage.py", "runserver-aws", "--port", "8000", "--host 0.0.0.0", "--reload"]
+
+CMD ["python", "manage.py", "runserver-aws", "--port", "8000", "--host", "0.0.0.0", "--reload"]
 
 # Stage for migrations
 FROM build AS migrate
