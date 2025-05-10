@@ -23,20 +23,15 @@ phases:
       - ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
 
       - echo "Logging in to Amazon ECR…"
-      - aws ecr get-login-password --region $AWS_REGION \
-        | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+      - aws ecr get-login-password --region $AWS_REGION docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 
   build:
     commands:
       - echo "Building Docker image ($DOCKER_TARGET)…"
-      - docker build \
-          --platform $DOCKER_PLATFORM \
-          --target $DOCKER_TARGET \
-          -t $ECR_REPO:latest .
+      - docker build --platform $DOCKER_PLATFORM --target $DOCKER_TARGET -t $ECR_REPO:latest .
 
       - echo "Tagging image for ECR…"
-      - docker tag $ECR_REPO:latest \
-          $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:latest
+      - docker tag $ECR_REPO:latest $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:latest
 
   post_build:
     commands:
