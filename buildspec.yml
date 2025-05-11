@@ -3,6 +3,7 @@ version: 0.2
 env:
   variables:
     ECR_REPO:      "devops/blacklist-api-python"
+    SERVICE_NAME:  "Blacklist-API-fargate-service"
     DOCKER_TARGET: "aws_server"
     DOCKER_PLATFORM: "linux/amd64"
     UV_SYSTEM_PYTHON: true
@@ -18,18 +19,15 @@ phases:
     commands:
       - echo "Running tests…"
       - uv run manage.py test
-
       - echo "Retrieving AWS account ID…"
       - ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
-
       - echo "Logging in to Amazon ECR…"
       - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 
   build:
     commands:
       - echo "Building Docker image ($DOCKER_TARGET)…"
-      - docker build --platform $DOCKER_PLATFORM --target $DOCKER_TARGET -t $ECR_REPO:latest .
-
+      - docker build --platform $DOCKER_PLATFORM  --target $DOCKER_TARGET -t $ECR_REPO:latest .
       - echo "Tagging image for ECR…"
       - docker tag $ECR_REPO:latest $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:latest
 
@@ -38,8 +36,23 @@ phases:
       - echo "Pushing image to ECR…"
       - docker push $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:latest
       - echo "Build complete on $(date)"
+      - echo "Writing Image Definitions file…"
+      - printf '[{"name":"%s","imageUri":"%s"}]' "$SERVICE_NAME" "$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:latest" > imagedefinitions.json
+      - echo "Writing Image Detail file…"
+      - printf '{"ImageURI":"%s"}' "$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:latest" > imageDetail.json
+      - cat imagedefinitions.json
 
 artifacts:
   files:
-    - appspec.yml
-    - taskdef.json
+    - '**/*'
+    - imagedefinitions.json
+    - imageDetail.json
+
+  secondary-artifacts:
+    DefinitionArtifact:
+      files:
+        - appspec.yml
+        - taskdef.json
+    ImageArtifact:
+      files:
+        - imageDetail.json

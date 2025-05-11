@@ -9,7 +9,7 @@
   "containerDefinitions": [
     {
       "name":  "Blacklist-API-fargate-service",
-      "image": "501257812093.dkr.ecr.us-east-1.amazonaws.com/devops/blacklist-api-python:latest",
+      "image": "<IMAGE1_NAME>",
       "portMappings": [
         { "containerPort": 8000, "protocol": "tcp" }
       ],
