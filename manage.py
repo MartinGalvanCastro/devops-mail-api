@@ -11,6 +11,8 @@ from src.infrastructure.commons.settings.base import settings
 app = typer.Typer()
 
 
+#dumy
+
 @app.command()
 def runserver(host: str = "0.0.0.0", port: int = 8000, reload: bool = False):
     uvicorn.run("src.main:app", host=host, port=port, reload=reload)
