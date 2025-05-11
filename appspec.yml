@@ -3,9 +3,7 @@ Resources:
   - TargetService:
       Type: AWS::ECS::Service
       Properties:
-        ClusterName: Blacklist-API-Cluster
-        ServiceName: Blacklist-API-fargate-service
-        TaskDefinition: Blacklist-API-Task
+        TaskDefinition: taskdef.json
         LoadBalancerInfo:
           ContainerName: Blacklist-API-fargate-service
           ContainerPort: 8000
