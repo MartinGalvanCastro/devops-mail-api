@@ -38,3 +38,8 @@ phases:
       - echo "Pushing image to ECR…"
       - docker push $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:latest
       - echo "Build complete on $(date)"
+
+artifacts:
+  files:
+    - appspec.yml
+    - taskdef.json
