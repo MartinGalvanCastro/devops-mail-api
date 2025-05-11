@@ -36,15 +36,8 @@ phases:
       - echo "Pushing image to ECR…"
       - docker push $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:latest
       - echo "Build complete on $(date)"
-      - echo "Writing Image Definitions file…"
-      - printf '[{"name":"%s","imageUri":"%s"}]' "$SERVICE_NAME" "$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:latest" > imagedefinitions.json
-      - echo "Writing Image Detail file…"
-      - printf '{"ImageURI":"%s"}' "$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:latest" > imageDetail.json
-      - cat imagedefinitions.json
 
 artifacts:
   files:
-    - imagedefinitions.json
-    - imageDetail.json
-    - appspec.yaml
+    - appspec.yml
     - taskdef.json
