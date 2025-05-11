@@ -65,7 +65,7 @@ resource "aws_ecs_service" "app" {
   launch_type     = "FARGATE"
 
   deployment_controller {
-    type = "ECS"
+    type = "CODE_DEPLOY"
   }
 
   health_check_grace_period_seconds = 60

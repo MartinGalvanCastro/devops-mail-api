@@ -20,7 +20,7 @@ docker-compose.yml
 terraform/
 buildspec.yml
 taskDef*.json
-appspec*.json
+appspec.yml
 
 
 tests/
