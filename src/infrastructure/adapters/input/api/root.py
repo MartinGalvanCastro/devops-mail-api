@@ -1,6 +1,6 @@
 from http import HTTPStatus
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
 from src.domain.entities.managment import MessageResponse
 
@@ -18,4 +18,6 @@ router = APIRouter()
     status_code=HTTPStatus.OK,
 )
 async def root() -> MessageResponse:
-    return MessageResponse(message="OK")
+    raise HTTPException(
+        status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail="Internal Server Error"
+    )
