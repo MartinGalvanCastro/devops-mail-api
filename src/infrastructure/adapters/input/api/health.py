@@ -1,6 +1,6 @@
 from http import HTTPStatus
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
 from src.domain.entities.managment import MessageResponse
 
@@ -14,8 +14,10 @@ router = APIRouter()
     summary="Endpoint raiz",
     description="""Endpoint de verificación de salud del sistema.
 
-   Devuelve un estado OK si el servicio está operativo y disponible.""",
-    status_code=HTTPStatus.OK,
+   Devuelve un error 500 para simular una falla.""",
+    status_code=HTTPStatus.INTERNAL_SERVER_ERROR,
 )
 async def health() -> MessageResponse:
-    return MessageResponse(message="OK")
+    raise HTTPException(
+        status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail="Internal Server Error"
+    )

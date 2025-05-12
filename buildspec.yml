@@ -18,7 +18,7 @@ phases:
   pre_build:
     commands:
       - echo "Running tests…"
-      - uv run manage.py test-with-failures
+      - uv run manage.py test
       - echo "Retrieving AWS account ID…"
       - ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
       - echo "Logging in to Amazon ECR…"
