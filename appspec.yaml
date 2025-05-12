@@ -7,8 +7,3 @@ Resources:
         LoadBalancerInfo:
           ContainerName: "Blacklist-API-fargate-service"
           ContainerPort: 8000
-hooks:
-  BeforeInstall:
-    - location: scripts/fail_script.sh
-      timeout: 300
-      runas: root
