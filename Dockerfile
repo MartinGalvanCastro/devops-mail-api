@@ -26,7 +26,7 @@ CMD ["python", "manage.py", "runserver", "--port", "8000", "--host", "0.0.0.0", 
 
 FROM build AS aws_server
 EXPOSE 8000
-CMD ["python", "manage.py", "runserver-aws", "--port", "8000", "--host", "0.0.0.0", "--reload"]
+CMD ["newrelic-admin", "run-program", "python", "manage.py", "runserver-aws", "--port", "8000", "--host", "0.0.0.0"]
 
 # Stage for migrations
 FROM build AS migrate

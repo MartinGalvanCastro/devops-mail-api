@@ -29,3 +29,9 @@ resource "aws_ssm_parameter" "db_driver" {
   type  = "String"
   value = var.db_driver
 }
+
+resource "aws_ssm_parameter" "new_relic_license_key" {
+  name  = "/blacklist-api/NEW_RELIC_LICENSE_KEY"
+  type  = "String"
+  value = var.NEW_RELIC_LICENSE_KEY
+}

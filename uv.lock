@@ -399,6 +399,7 @@ dependencies = [
     { name = "email-validator" },
     { name = "fastapi", extra = ["all"] },
     { name = "httpx" },
+    { name = "newrelic" },
     { name = "psycopg", extra = ["binary", "pool"] },
     { name = "pydantic-settings" },
     { name = "python-jose", extra = ["cryptography"] },
@@ -423,6 +424,7 @@ requires-dist = [
     { name = "email-validator", specifier = ">=2.2.0" },
     { name = "fastapi", extras = ["all"], specifier = ">=0.115.12" },
     { name = "httpx", specifier = ">=0.28.1" },
+    { name = "newrelic", specifier = ">=10.12.0" },
     { name = "psycopg", extras = ["binary", "pool"], specifier = ">=3.2.6" },
     { name = "pydantic-settings", specifier = ">=2.8.1" },
     { name = "python-jose", extras = ["cryptography"], specifier = ">=3.4.0" },
@@ -510,6 +512,22 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/d6/54/cfe61301667036ec958cb99bd3efefba235e65cdeb9c84d24a8293ba1d90/mdurl-0.1.2.tar.gz", hash = "sha256:bb413d29f5eea38f31dd4754dd7377d4465116fb207585f97bf925588687c1ba", size = 8729 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/b3/38/89ba8ad64ae25be8de66a6d463314cf1eb366222074cfda9ee839c56a4b4/mdurl-0.1.2-py3-none-any.whl", hash = "sha256:84008a41e51615a49fc9966191ff91509e3c40b939176e643fd50a5c2196b8f8", size = 9979 },
+]
+
+[[package]]
+name = "newrelic"
+version = "10.12.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/d7/c1/ac39663010b6bccbe92c7d5e82fe39439194351057435d9bfcf5769ae0e5/newrelic-10.12.0.tar.gz", hash = "sha256:36b97d0a303fa69e0fde30bc60f164e60d998e3575027a0d4c2f05bdb388e6b5", size = 1253945 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/75/dd/a7cd272ddfeb3407e8eadbba0b335cdb3f11fbb0bf56bc922dda8094d06b/newrelic-10.12.0-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:a79e1aab89fb23609a8d9728bed1472b65e5d2b86aaec159baa7c92c02803aeb", size = 850726 },
+    { url = "https://files.pythonhosted.org/packages/9e/b6/2b73481b153442ccfdb8031e59907dcaa0abcee6afed38d24cfa6d52f6b6/newrelic-10.12.0-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:2515df0b40a40971c00491f39acffb1454119182771bc457b1bcdf32272797c0", size = 850386 },
+    { url = "https://files.pythonhosted.org/packages/1b/e1/b09c6dd34351dc70245b5cc88423df14500bf54f52f868bb9fd540d49da0/newrelic-10.12.0-cp312-cp312-musllinux_1_2_aarch64.whl", hash = "sha256:e9cbcb673341027aeb1233720b63b75d53ca66302b9f8e9edf9550b6ff4d39d8", size = 848355 },
+    { url = "https://files.pythonhosted.org/packages/18/4f/6545475bc5e4684fc995485468598e3cfcd4d7323914902c8229927924bf/newrelic-10.12.0-cp312-cp312-musllinux_1_2_x86_64.whl", hash = "sha256:4d2d02bb23f605c75e2356056030334d6cfb90bb9b92e1f50d26e492c2ecc802", size = 848223 },
+    { url = "https://files.pythonhosted.org/packages/89/fa/cedbf09f18fd371186e272c0e1d4656f70db63c2bbc04eb5c3121d131d98/newrelic-10.12.0-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:b3945ac80c63de357b93a68d6ec996a0676226f5de8f9821b3d8d07bc768a02f", size = 850714 },
+    { url = "https://files.pythonhosted.org/packages/15/00/6720433c2ac044e0285c9b34c87113081bdc1219fcf04606ba60c37c9346/newrelic-10.12.0-cp313-cp313-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:dea48b7dae6b73d979ef9f5146eb420e39e662e6ecfb2ebf03e42d2d538ce6ba", size = 850392 },
+    { url = "https://files.pythonhosted.org/packages/5d/d8/52c6251755bf7a1693b1a3b1890d10edbfc55e6f0a93883304c4427cea6d/newrelic-10.12.0-cp313-cp313-musllinux_1_2_aarch64.whl", hash = "sha256:89a71adc98f8a64018eaeafd35403213b3d72057cf357a54e5374bb21af756ea", size = 848523 },
+    { url = "https://files.pythonhosted.org/packages/13/5a/406f347d4aaab45640395a5921656cc376c21008228ed8307dc43a4326e5/newrelic-10.12.0-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:8c0b377840fcced6062239ab21065d27d6e0e83a860dce40f9f0358f4e2c5e52", size = 848397 },
 ]
 
 [[package]]

@@ -19,6 +19,10 @@ resource "aws_ecs_task_definition" "app" {
       image        = var.image_uri
       essential    = true
       portMappings = [{ containerPort = 8000, hostPort = 8000, protocol = "tcp" }]
+      enviroment = [
+        { name = "NEW_RELIC_APP_NAME", value = var.project_name },
+        { name = "NEW_RELIC_DISTRIBUTED_TRACING_ENABLED", value = "true" }
+      ]
       secrets = [
         {
           name      = "DB_HOST"
@@ -43,6 +47,10 @@ resource "aws_ecs_task_definition" "app" {
         {
           name      = "DB_DRIVER"
           valueFrom = aws_ssm_parameter.db_driver.arn
+        },
+        {
+          name      = "NEW_RELIC_LICENSE_KEY"
+          valueFrom = aws_ssm_parameter.new_relic_license_key.arn
         }
       ]
       logConfiguration = {

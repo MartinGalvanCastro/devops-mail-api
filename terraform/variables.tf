@@ -76,3 +76,10 @@ variable "task_memory" {
   type        = string
   default     = "512"
 }
+
+variable "NEW_RELIC_LICENSE_KEY" {
+  description = "New Relic license key"
+  type        = string
+  default     = "fd0708e1b48476b79eed54a0a501912fFFFFNRAL"
+  sensitive   = true
+}

@@ -1,7 +1,7 @@
 resource "aws_iam_role" "ecs_task_execution_role" {
   name = "${var.project_name}-task-execution-role"
   assume_role_policy = jsonencode({
-    Version ="2012-10-17",
+    Version = "2012-10-17",
     Statement = [{
       Action    = "sts:AssumeRole",
       Principal = { Service = "ecs-tasks.amazonaws.com" },
@@ -34,7 +34,8 @@ resource "aws_iam_role_policy" "ecs_execution_ssm_access" {
         aws_ssm_parameter.db_user.arn,
         aws_ssm_parameter.db_password.arn,
         aws_ssm_parameter.db_name.arn,
-        aws_ssm_parameter.db_driver.arn
+        aws_ssm_parameter.db_driver.arn,
+        aws_ssm_parameter.new_relic_license_key.arn
       ]
     }]
   })
@@ -43,7 +44,7 @@ resource "aws_iam_role_policy" "ecs_execution_ssm_access" {
 resource "aws_iam_role" "ecs_task_role" {
   name = "${var.project_name}-task-role"
   assume_role_policy = jsonencode({
-    Version ="2012-10-17",
+    Version = "2012-10-17",
     Statement = [{
       Action    = "sts:AssumeRole",
       Principal = { Service = "ecs-tasks.amazonaws.com" },

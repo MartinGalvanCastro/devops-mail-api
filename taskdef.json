@@ -17,13 +17,18 @@
           "protocol": "tcp"
         }
       ],
+      "environment": [
+        { "name" :"NEW_RELIC_APP_NAME", "value":"blacklist-api" },
+        { "name"  :"NEW_RELIC_DISTRIBUTED_TRACING_ENABLED", "value" : true }
+      ],
       "secrets": [
         { "name": "DB_HOST",     "valueFrom": "/blacklist-api/DB_HOST" },
         { "name": "DB_PORT",     "valueFrom": "/blacklist-api/DB_PORT" },
         { "name": "DB_USER",     "valueFrom": "/blacklist-api/DB_USER" },
         { "name": "DB_PASSWORD", "valueFrom": "/blacklist-api/DB_PASSWORD" },
         { "name": "DB_NAME",     "valueFrom": "/blacklist-api/DB_NAME" },
-        { "name": "DB_DRIVER",   "valueFrom": "/blacklist-api/DB_DRIVER" }
+        { "name": "DB_DRIVER",   "valueFrom": "/blacklist-api/DB_DRIVER" },
+        { "name": "NEW_RELIC_LICENSE_KEY", "valueFrom" : "/blacklist-api/NEW_RELIC_LICENSE_KEY"}
       ],
       "logConfiguration": {
         "logDriver": "awslogs",
