@@ -1,4 +1,4 @@
-FROM python:3.13-slim AS build
+FROM public.ecr.aws/docker/library/python:3.13-slim AS build
 
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
